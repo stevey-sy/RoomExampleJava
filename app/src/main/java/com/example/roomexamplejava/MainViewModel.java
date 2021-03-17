@@ -14,6 +14,9 @@ import java.util.List;
 public class MainViewModel extends AndroidViewModel {
     private AppDatabase db;
 
+    public String newTodo;
+    public LiveData<List<Todo>> todos;
+
     public MainViewModel(@NonNull Application application) {
         super(application);
 
@@ -23,6 +26,8 @@ public class MainViewModel extends AndroidViewModel {
         db = Room.databaseBuilder(application, AppDatabase.class, "todo-db")
                 .allowMainThreadQueries()
                 .build();
+
+        todos = getAll();
     }
 
     public void print() {
@@ -33,10 +38,14 @@ public class MainViewModel extends AndroidViewModel {
         return db.todoDao().getAll();
     }
 
-    public void insert(Todo todo) {
-        db.todoDao().insert(todo);
-//                mResultTextView.setText(db.todoDao().getAll().toString());
+    public void insert (String todo) {
+        db.todoDao().insert(new Todo(todo));
     }
+
+//    public void insert(Todo todo) {
+//        db.todoDao().insert(todo);
+////                mResultTextView.setText(db.todoDao().getAll().toString());
+//    }
 
 
 }
